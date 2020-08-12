@@ -1,3 +1,6 @@
+import java.lang.Integer.max
+import java.lang.Integer.min
+
 fun main() {
     val name = "Madrigal"
     var healthPoints = 89
@@ -20,7 +23,7 @@ fun main() {
     // playerStatus
     printPlayerStatus(auraColor, isBlessed, name, healthStatus)
 
-    castFireball()
+    printPlayerInebriationStatus(castFireball(-13))
 }
 
 private fun printPlayerStatus(auraColor: String, isBlessed: Boolean, name: String, healthStatus: String) {
@@ -28,11 +31,8 @@ private fun printPlayerStatus(auraColor: String, isBlessed: Boolean, name: Strin
     println("$name $healthStatus")
 }
 
-private fun auraColor(isBlessed: Boolean, healthPoints: Int, isImmortal: Boolean): String {
-    val auraVisible = isBlessed && healthPoints > 50 || isImmortal
-    val auraColor = if (auraVisible) "GREEN" else "NONE"
-    return auraColor
-}
+private fun auraColor(isBlessed: Boolean, healthPoints: Int, isImmortal: Boolean): String =
+    if (isBlessed && healthPoints > 50 || isImmortal) "GREEN" else "NONE"
 
 private fun formatHealthStatus(healthPoints: Int, isBlessed: Boolean): String =
         when (healthPoints) {
@@ -48,5 +48,23 @@ private fun formatHealthStatus(healthPoints: Int, isBlessed: Boolean): String =
     }
 
 
-private fun  castFireball(numFireball: Int = 2) =
-    println("A glass of fireball springs into existence. (x$numFireball)")
+private fun  castFireball(numFireball: Int = 2): Int {
+    if(numFireball > 0){
+        println("A glass of fireball springs into existence. (x$numFireball)")
+    } else {
+        println("Oops! Can't be provided!")
+    }
+    // 雑に0~50で縛る
+    return max(0,min(numFireball,50))
+}
+
+private fun printPlayerInebriationStatus(inebriation:Int = 0) =
+        println(when (inebriation) {
+            0 -> "no drunk"
+            in 1..10 -> "tipsy"
+            in 11..20 -> "sloshed"
+            in 21..30 -> "soused"
+            in 31..40 -> "stewed"
+            in 41..50 -> "..t0aSt3d"
+            else -> "Oops! not expected value!"
+        })
